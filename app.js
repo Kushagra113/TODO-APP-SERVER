@@ -27,6 +27,7 @@ mongoose.connect(mongoDBConnectionString,{useNewUrlParser:true,useUnifiedTopolog
 });
 
 // Category Routes
+app.get('/',(req,res)=>{res.send('hello World')})
 app.use('/category',categoryRoutes);
 app.use('/todos',todoRoutes);
 app.use('/otp',otpRoutes);
