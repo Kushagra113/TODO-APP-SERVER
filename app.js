@@ -22,7 +22,7 @@ mongoose.connect(mongoDBConnectionString,{useNewUrlParser:true,useUnifiedTopolog
         console.log(err);
     }
     else{
-        app.listen(3001,console.log("Server Running on PORT 3001"));
+        app.listen(process.env.port,console.log("Server Running on PORT 3001"));
     }
 });
 
