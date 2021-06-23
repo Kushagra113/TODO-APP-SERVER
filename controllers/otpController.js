@@ -8,31 +8,36 @@ require('dotenv').config();
 
 module.exports.sendOtp = async (req, res) => {
     const { emailaddress } = req.body;
-    const transporter = nodeMailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.emailAddress,
-            pass: process.env.appPassword
-        }
-    });
-    var otp = otpGenerator.generate(4,{alphabets:false,upperCase: false, specialChars: false});
-    let requestId = await otpModel.create({email:emailaddress,otp});
-    res.json({id:requestId._id});
-    const mailOptions = {
-        from: process.env.emailAddress,
-        to: emailaddress,
-        subject: 'OTP For Your Account',
-        text: `OTP is ${otp}`,
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            res.json({error:"Some Error Occured While Sending Email Please Try Again Later"});
-        } else {
-            res.json({id:requestId._id});
-            // ,info
-        }
-    });
+    if(emailaddress=="tibrewalkushagra@gmail.com" || emailaddress=="yashkush.tibrewal@gmail.com"){
+        const transporter = nodeMailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.emailAddress,
+                pass: process.env.appPassword
+            }
+        });
+        var otp = otpGenerator.generate(4,{alphabets:false,upperCase: false, specialChars: false});
+        let requestId = await otpModel.create({email:emailaddress,otp});
+        res.json({id:requestId._id});
+        const mailOptions = {
+            from: process.env.emailAddress,
+            to: emailaddress,
+            subject: 'OTP For Your Account',
+            text: `OTP is ${otp}`,
+        };
+    
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.json({error:"Some Error Occured While Sending Email Please Try Again Later"});
+            } else {
+                res.json({id:requestId._id});
+                // ,info
+            }
+        });
+    }
+    else{
+        res.json({error:"Not Authorised to Send Request"});
+    }
 }
 
 module.exports.verifyOtp = async (req, res) => {

@@ -22,12 +22,11 @@ mongoose.connect(mongoDBConnectionString,{useNewUrlParser:true,useUnifiedTopolog
         console.log(err);
     }
     else{
-        app.listen(process.env.PORT,console.log("Server Running on PORT "+process.env.PORT));
+        app.listen(3001,console.log("Server Running on PORT 3001"));
     }
 });
 
 // Category Routes
-app.get('/',(req,res)=>{res.send('hello World')})
 app.use('/category',categoryRoutes);
 app.use('/todos',todoRoutes);
 app.use('/otp',otpRoutes);
