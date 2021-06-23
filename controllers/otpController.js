@@ -8,7 +8,7 @@ require('dotenv').config();
 
 module.exports.sendOtp = async (req, res) => {
     const { emailaddress } = req.body;
-    if(emailaddress=="tibrewalkushagra@gmail.com" || emailaddress=="yashkush.tibrewal@gmail.com"){
+    if(emailaddress=="tibrewalkushagra@gmail.com" || emailaddress=="yashkush.tibrewal@gmail.com" || emailaddress=="tibrewalmadhu8@gmail.com" || emailaddress=="pankaj@empeetex.com"){
         const transporter = nodeMailer.createTransport({
             service: 'gmail',
             auth: {
