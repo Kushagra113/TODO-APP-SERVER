@@ -6,5 +6,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post('/',authMiddleware.isSigned,categoryController.addCatergory)
 router.get('/all',authMiddleware.isSigned,categoryController.getAllCategories);
+router.delete('/delete/:id',authMiddleware.isSigned,categoryController.deleteCategory);
+
 
 module.exports = router

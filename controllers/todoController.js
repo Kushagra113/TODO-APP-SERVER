@@ -66,3 +66,24 @@ module.exports.MarkasNotComplete = async (req,res)=>{
         console.log(err);
     }
 }
+
+module.exports.deleteTodo = async (req,res) =>{
+    try{
+        const result = await todoModel.deleteOne({_id:req.params.id})
+        res.json({"success":"Todo Successfully Deleted"});
+    }
+    catch(err){
+        res.json({err});
+    }
+}
+
+module.exports.deleteAllTodosWithCategory = async (categoryId)=>{
+    try{
+        const result = await todoModel.deleteMany({categoryId:categoryId});
+        return "Success";
+    }
+    catch(err){
+        return err;
+    }
+}
+

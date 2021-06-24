@@ -9,5 +9,6 @@ router.post('/completed',authMiddleware.isSigned,todoController.getCompletedTodo
 router.post('/Notcompleted',authMiddleware.isSigned,todoController.getNotCompletedTodos);
 router.put('/Markcomplete',authMiddleware.isSigned,todoController.MarkasComplete);
 router.put('/Marknotcomplete',authMiddleware.isSigned,todoController.MarkasNotComplete);
+router.delete('/delete/:id',authMiddleware.isSigned,todoController.deleteTodo);
 
 module.exports = router;
