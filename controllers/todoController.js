@@ -87,3 +87,14 @@ module.exports.deleteAllTodosWithCategory = async (categoryId)=>{
     }
 }
 
+module.exports.editTodo = async(req,res)=>{
+    console.log("Request Coming?");
+    try{
+        const result = await todoModel.findByIdAndUpdate({_id:req.params.id},{$set:{title:req.body.title,description:req.body.description}},{useFindAndModify: false});
+        res.json({success:"Todo SuccessFully Updated"});
+    }
+    catch(err){
+        res.json({err:"Some Error Occured While Updating Todo Please Try Again Later"});
+    }
+}
+
