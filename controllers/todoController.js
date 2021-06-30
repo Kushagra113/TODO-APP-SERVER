@@ -35,9 +35,9 @@ module.exports.getCompletedTodos = async (req,res)=>{
 }
 
 module.exports.getNotCompletedTodos = async (req,res)=>{
-    const {categoryId } = req.body
+    const {categoryId,limit,skip } = req.body
     try{
-        const result = await todoModel.find({categoryId,status:"NC"});
+        const result = await todoModel.find({categoryId,status:"NC"}).limit(limit).skip(skip);
         res.json(result);
     }
     catch(err){
@@ -88,7 +88,6 @@ module.exports.deleteAllTodosWithCategory = async (categoryId)=>{
 }
 
 module.exports.editTodo = async(req,res)=>{
-    console.log("Request Coming?");
     try{
         const result = await todoModel.findByIdAndUpdate({_id:req.params.id},{$set:{title:req.body.title,description:req.body.description}},{useFindAndModify: false});
         res.json({success:"Todo SuccessFully Updated"});
@@ -97,4 +96,15 @@ module.exports.editTodo = async(req,res)=>{
         res.json({err:"Some Error Occured While Updating Todo Please Try Again Later"});
     }
 }
+
+// module.exports.completeAndNotCompletedTodos = async(req,res) =>{
+//     try{
+//         const Completed = await todoModel.countDocuments({status:'C',categoryId:req.body.categoryId});
+//         const Notcompleted = await todoModel.countDocuments({status:'NC',categoryId:req.body.categoryId});
+//         res.json({Completed,Notcompleted});
+//     }
+//     catch(err){
+//         res.json({err:"Some Error Occured While Retreiving Data"})
+//     }
+// }
 

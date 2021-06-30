@@ -3,6 +3,7 @@ const router = express.Router();
 const todoController = require('../controllers/todoController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
+// router.get('/CompleteNumber',todoController.completeAndNotCompletedTodos);
 router.post('/',authMiddleware.isSigned,todoController.addTodo);
 router.post('/all',authMiddleware.isSigned,todoController.getAllTodos);
 router.post('/completed',authMiddleware.isSigned,todoController.getCompletedTodos);
