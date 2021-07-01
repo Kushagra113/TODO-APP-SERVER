@@ -23,9 +23,9 @@ module.exports.getAllTodos = async (req,res)=>{
 }
 
 module.exports.getCompletedTodos = async (req,res)=>{
-    const {categoryId } = req.body
+    const {categoryId ,limit,skip } = req.body
     try{
-        const result = await todoModel.find({categoryId:categoryId,status:"C"});
+        const result = await todoModel.find({categoryId:categoryId,status:"C"}).limit(limit).skip(skip);
         // .limit(2).skip(2)
         res.json(result);
     }

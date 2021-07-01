@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const todoSchema = mongoose.Schema({
     categoryId:{
-        type:String,
+        type:mongoose.Types.ObjectId,
         required:true,
     },
     status:{
