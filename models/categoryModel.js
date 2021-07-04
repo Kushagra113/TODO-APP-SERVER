@@ -4,6 +4,10 @@ const categorySchema = mongoose.Schema({
     text:{
         type:String,
         required:true
+    },
+    groupId:{
+        type:mongoose.Types.ObjectId,
+        required:true
     }
 })
 
