@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json())
 
 // MongoDB Connection String
-const mongoDBConnectionString = "mongodb+srv://Kushagra:"+process.env.COLLECTIONPASS+"@todolistserver.vqqdw.mongodb.net/TodoListServer";
+const mongoDBConnectionString = "mongodb+srv://Kushagra:"+process.env.COLLECTIONPASS+"@todolistserver.vqqdw.mongodb.net/TodoListServerCopy";
 
 // Connecting to MongoDB
 mongoose.connect(mongoDBConnectionString,{useNewUrlParser:true,useUnifiedTopology: true},err=>{
