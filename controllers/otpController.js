@@ -40,7 +40,7 @@ module.exports.verifyOtp = async (req, res) => {
     if (result) {
         let accessToken = await jwt.sign({
             email: result.email,
-        }, process.env.jwtSecret, { expiresIn: '1 day' });
+        }, process.env.jwtSecret, { expiresIn: '30 days' });
         res.json({ accessToken });
     }
     else {
