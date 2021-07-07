@@ -32,7 +32,9 @@ module.exports.login = async (req, res) => {
         const { name, emailaddress } = req.body;
         const group = await groupModel.find({ name: name });
         if (group.length > 0) {
-            if (group[0].emails.indexOf(emailaddress) == 0) {
+            console.log(group[0].emails);
+            console.log(group[0].emails.indexOf(emailaddress))
+            if (group[0].emails.indexOf(emailaddress)>= 0) {
                 const id = await otpController.sendOtp(emailaddress);
                 if (id.command) {
                     throw err;
