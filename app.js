@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const categoryRoutes = require('./routes/CategoryRoutes');
 const todoRoutes = require('./routes/todoRoutes');
 const otpRoutes = require('./routes/otpRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Enviromental Variables
 require('dotenv').config();
@@ -27,9 +28,10 @@ mongoose.connect(mongoDBConnectionString,{useNewUrlParser:true,useUnifiedTopolog
 });
 
 // Category Routes
+app.use('/otp',otpRoutes);
+app.use('/auth',authRoutes);
 app.use('/category',categoryRoutes);
 app.use('/todos',todoRoutes);
-app.use('/otp',otpRoutes);
 
 
 

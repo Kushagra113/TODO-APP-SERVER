@@ -2,9 +2,9 @@ const categoryModel = require('../models/categoryModel');
 const todoController = require('../controllers/todoController');
 
 module.exports.addCatergory = async (req, res) => {
-    const { text } = req.body;
+    const { text,groupId } = req.body;
     try {
-        const result = await categoryModel.create({ text });
+        const result = await categoryModel.create({ text ,groupId});
         res.json(result);
     }
     catch (err) {

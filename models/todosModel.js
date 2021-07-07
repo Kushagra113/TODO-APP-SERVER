@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const todoSchema = mongoose.Schema({
+    groupId:{
+        type:mongoose.Types.ObjectId,
+        required:true
+    },
     categoryId:{
         type:mongoose.Types.ObjectId,
         required:true,
@@ -17,7 +21,6 @@ const todoSchema = mongoose.Schema({
         type:String,
         required:true,
     },
-
 })
 
 const todoModel = mongoose.model("todos",todoSchema);
