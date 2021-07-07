@@ -2,13 +2,13 @@ const nodeMailer = require('nodemailer');
 const otpModel = require('../models/otpModel');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
+const groupController = require('./authController');
 
 // Configuring Enviromental Variables
 require('dotenv').config();
 
-module.exports.sendOtp = async (req, res) => {
-    const { emailaddress } = req.body;
-    if(emailaddress=="tibrewalkushagra@gmail.com" || emailaddress=="yashkush.tibrewal@gmail.com" || emailaddress=="tibrewalmadhu8@gmail.com" || emailaddress=="pankaj@empeetex.com"){
+module.exports.sendOtp = async (emailaddress) => {
+    try{
         const transporter = nodeMailer.createTransport({
             service: 'gmail',
             auth: {
@@ -16,9 +16,9 @@ module.exports.sendOtp = async (req, res) => {
                 pass: process.env.appPassword
             }
         });
-        var otp = otpGenerator.generate(4,{alphabets:false,upperCase: false, specialChars: false});
-        let requestId = await otpModel.create({email:emailaddress,otp});
-        res.json({id:requestId._id});
+        var otp = otpGenerator.generate(4, { alphabets: false, upperCase: false, specialChars: false });
+        let requestId = await otpModel.create({ email: emailaddress, otp });
+        // console.log(requestId);
         const mailOptions = {
             from: process.env.emailAddress,
             to: emailaddress,
@@ -26,31 +26,24 @@ module.exports.sendOtp = async (req, res) => {
             text: `OTP is ${otp}`,
         };
     
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                res.json({error:"Some Error Occured While Sending Email Please Try Again Later"});
-            } else {
-                res.json({id:requestId._id});
-                // ,info
-            }
-        });
+        await transporter.sendMail(mailOptions);
+        return requestId._id;
     }
-    else{
-        res.json({error:"Not Authorised to Send Request"});
+    catch(err){
+        return err;
     }
 }
 
 module.exports.verifyOtp = async (req, res) => {
-    const { id,otp } = req.body;
-    const result = await otpModel.findOne({_id:id,otp:otp});
-    if(result){
-        let accessToken =  await jwt.sign({
-            email:result.email,
-        },process.env.jwtSecret,{expiresIn:'30 days'})
-        res.json({accessToken});
+    const { id, otp, name, emails } = req.body;
+    const result = await otpModel.findOne({ _id: id, otp: otp });
+    if (result) {
+        let accessToken = await jwt.sign({
+            email: result.email,
+        }, process.env.jwtSecret, { expiresIn: '1 day' });
+        res.json({ accessToken });
     }
-    else{
-        res.json({accessToken:null});
+    else {
+        res.json({ accessToken: null });
     }
-
 }

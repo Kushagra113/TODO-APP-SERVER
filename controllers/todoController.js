@@ -1,9 +1,9 @@
 const todoModel = require('../models/todosModel');
 
 module.exports.addTodo = async (req,res)=>{
-    const {categoryId , title, description ,status }= req.body;
+    const { categoryId ,title, description ,status,groupId }= req.body;
     try{
-        const result = await todoModel.create({categoryId, title, description ,status});
+        const result = await todoModel.create({categoryId, title, description ,status,groupId});
         res.json(result);
     }
     catch(err){
@@ -12,9 +12,9 @@ module.exports.addTodo = async (req,res)=>{
 }
 
 module.exports.getAllTodos = async (req,res)=>{
-    const {categoryId } = req.body
+    const {categoryId,groupId } = req.body
     try{
-        const result = await todoModel.find({categoryId});
+        const result = await todoModel.find({categoryId,groupId});
         res.json(result);
     }
     catch(err){
@@ -23,9 +23,9 @@ module.exports.getAllTodos = async (req,res)=>{
 }
 
 module.exports.getCompletedTodos = async (req,res)=>{
-    const {categoryId ,limit,skip } = req.body
+    const {categoryId ,limit,skip,groupId} = req.body
     try{
-        const result = await todoModel.find({categoryId:categoryId,status:"C"}).limit(limit).skip(skip);
+        const result = await todoModel.find({categoryId,status:"C",groupId}).limit(limit).skip(skip);
         // .limit(2).skip(2)
         res.json(result);
     }
@@ -35,9 +35,9 @@ module.exports.getCompletedTodos = async (req,res)=>{
 }
 
 module.exports.getNotCompletedTodos = async (req,res)=>{
-    const {categoryId,limit,skip } = req.body
+    const {categoryId,limit,skip ,groupId} = req.body
     try{
-        const result = await todoModel.find({categoryId,status:"NC"}).limit(limit).skip(skip);
+        const result = await todoModel.find({categoryId,status:"NC",groupId}).limit(limit).skip(skip);
         res.json(result);
     }
     catch(err){
@@ -46,9 +46,9 @@ module.exports.getNotCompletedTodos = async (req,res)=>{
 }
 
 module.exports.MarkasComplete = async (req,res)=>{
-    const {categoryId , todoId} = req.body
+    const {categoryId , todoId,groupId} = req.body
     try{
-        const result = await todoModel.updateOne({_id:todoId ,categoryId:categoryId,status:"NC"},{$set:{status:"C"}});
+        const result = await todoModel.updateOne({_id:todoId ,categoryId:categoryId,status:"NC",groupId},{$set:{status:"C"}});
         res.json(result);
     }
     catch(err){
@@ -57,9 +57,9 @@ module.exports.MarkasComplete = async (req,res)=>{
 }
 
 module.exports.MarkasNotComplete = async (req,res)=>{
-    const {categoryId , todoId} = req.body
+    const {categoryId , todoId,groupId} = req.body
     try{
-        const result = await todoModel.updateOne({_id:todoId ,categoryId:categoryId,status:"C"},{$set:{status:"NC"}});
+        const result = await todoModel.updateOne({_id:todoId ,categoryId:categoryId,status:"C",groupId},{$set:{status:"NC"}});
         res.json(result);
     }
     catch(err){
@@ -68,8 +68,9 @@ module.exports.MarkasNotComplete = async (req,res)=>{
 }
 
 module.exports.deleteTodo = async (req,res) =>{
+    const { groupId } = req.body;
     try{
-        const result = await todoModel.deleteOne({_id:req.params.id})
+        const result = await todoModel.deleteOne({_id:req.params.id,groupId})
         res.json({"success":"Todo Successfully Deleted"});
     }
     catch(err){
