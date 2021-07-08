@@ -1,5 +1,8 @@
 const categoryModel = require('../models/categoryModel');
 const todoController = require('../controllers/todoController');
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId;
 
 module.exports.addCatergory = async (req, res) => {
     const { text,groupId } = req.body;
@@ -15,7 +18,7 @@ module.exports.addCatergory = async (req, res) => {
 
 module.exports.getAllCategories = async (req, res) => {
     try {
-        const allCategoriesAndTodosCount = await categoryModel.aggregate([{
+        const allCategoriesAndTodosCount = await categoryModel.aggregate([{$match:{groupId:ObjectId(req.params.id)}},{
             $lookup: {
                 from: "todos",
                 let: { catId: "$_id" },
